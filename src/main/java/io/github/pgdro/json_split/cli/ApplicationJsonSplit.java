@@ -1,12 +1,8 @@
-/*
- * Copyright 2026 Daniel-Gheorghe Popiniuc
- */
-package io.github.dgp_eu.json_split.cli;
+/* Copyright 2026 Daniel-Gheorghe Popiniuc */
+package io.github.pgdro.json_split.cli;
 
-import io.github.dgp_eu.tools.core.CommonInteractiveClass;
+import io.github.pgdro.tools.core.InteractiveInputClass;
 import picocli.CommandLine;
-
-
 
 /**
  * Main Command Line
@@ -32,9 +28,9 @@ public final class ApplicationJsonSplit {
      * @param args command-line arguments
      */
     /* default */ static void main(final String... args) {
-        CommonInteractiveClass.startMeUpWithParameters("logs/JsonSplit-", "/json-split-pom.xml");
+        InteractiveInputClass.startMeUpWithParameters("logs/JsonSplit-", "/json-split-pom.xml");
         final int intJsonExitCode = new CommandLine(new ApplicationJsonSplit()).execute(args);
-        CommonInteractiveClass.shutMeDownWithParameters(intJsonExitCode, args[0]);
+        InteractiveInputClass.shutMeDownWithParameters(intJsonExitCode, args[0]);
     }
 
 }

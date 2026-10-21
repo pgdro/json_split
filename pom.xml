@@ -5,14 +5,14 @@
                                 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.github.dgp-eu</groupId>
+    <groupId>io.github.pgdro</groupId>
     <artifactId>json_split</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <name>json_split</name>
     <description>Java classes to split huge JSON file(s) into smaller and more manageable pieces</description>
-    <url>https://github.com/dgp-eu/json_split</url>
+    <url>https://github.com/pgdro/json_split</url>
 
     <licenses>
         <license>
@@ -31,15 +31,15 @@
                 <role>Developer</role>
             </roles>
             <timezone>+2</timezone>
-            <organization>dgp-eu</organization>
-            <organizationUrl>https://github.com/dgp-eu</organizationUrl>
+            <organization>pgdro</organization>
+            <organizationUrl>https://github.com/pgdro</organizationUrl>
         </developer>
     </developers>
 
     <scm>
-        <connection>scm:git:https://github.com/dgp-eu/json_split.git</connection>
-        <developerConnection>scm:git:ssh://github.com/dgp-eu/json_split.git</developerConnection>
-        <url>https://github.com/dgp-eu/json_split</url>
+        <connection>scm:git:https://github.com/pgdro/json_split.git</connection>
+        <developerConnection>scm:git:ssh://github.com/pgdro/json_split.git</developerConnection>
+        <url>https://github.com/pgdro/json_split</url>
     </scm>
 
     <properties>
@@ -51,28 +51,31 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <maven.compiler.release>${java.version}</maven.compiler.release>
-        <sonar.organization>dgp-eu</sonar.organization>
+        <sonar.organization>pgdro</sonar.organization>
         <!-- Dependency versions -->
-        <tools.version>1.2.8</tools.version>
-        <jackson-databind.version>3.2.2</jackson-databind.version>
+        <tools.version>2.1.2</tools.version>
+        <jackson-databind.version>3.2.4</jackson-databind.version>
         <!-- Build Plugin versions -->
-        <central-publishing-maven-plugin.version>0.11.0</central-publishing-maven-plugin.version>
+        <central-publishing-maven-plugin.version>0.12.0</central-publishing-maven-plugin.version>
+        <depgraph-maven-plugin.version>4.0.5</depgraph-maven-plugin.version>
         <maven-antrun-plugin.version>3.2.0</maven-antrun-plugin.version>
-        <maven-assembly-plugin.version>3.8.0</maven-assembly-plugin.version>
+        <maven-checkstyle-plugin.version>3.6.0</maven-checkstyle-plugin.version>
         <maven-enforcer-plugin.version>3.6.3</maven-enforcer-plugin.version>
         <maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
         <maven-javadoc-plugin.version>3.12.0</maven-javadoc-plugin.version>
         <maven-pmd-plugin.version>3.28.0</maven-pmd-plugin.version>
+        <maven-shade-plugin.version>3.6.2</maven-shade-plugin.version>
         <maven-surefire-plugin.version>3.6.0</maven-surefire-plugin.version>
+        <open-java-format.version>2.98.0.6</open-java-format.version>
         <pmd.version>7.28.0</pmd.version>
         <takari-lifecycle-plugin.version>2.3.4</takari-lifecycle-plugin.version>
-        <versions-maven-plugin.version>2.22.0</versions-maven-plugin.version>
+        <versions-maven-plugin.version>2.23.0</versions-maven-plugin.version>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>io.github.dgp-eu</groupId>
-            <artifactId>tools-core</artifactId>
+            <groupId>io.github.pgdro</groupId>
+            <artifactId>core</artifactId>
             <version>${tools.version}</version>
         </dependency>
         <dependency>
@@ -84,6 +87,14 @@
 
     <build>
         <plugins>
+            <!-- Source: https://github.com/ferstl/depgraph-maven-plugin -->
+            <!-- Binaries: https://repo1.maven.org/maven2/com/github/ferstl/depgraph-maven-plugin/ -->
+            <!-- Description: This Maven plugin generates dependency graphs on single modules or in an aggregated form on multimodule projects. The graphs are represented by .dot files. In case that Graphviz is installed on the machine where this plugin is run, the .dot file can be directly converted into all supported image files. -->
+            <plugin>
+                <groupId>com.github.ferstl</groupId>
+                <artifactId>depgraph-maven-plugin</artifactId>
+                <version>${depgraph-maven-plugin.version}</version>
+            </plugin>
             <!-- Source: https://github.com/takari/takari-lifecycle/releases -->
             <!-- Binaries: https://repo1.maven.org/maven2/io/takari/maven/plugins/takari-lifecycle-plugin -->
             <!-- Description: Takari Lifecycle Plugin -->
@@ -129,6 +140,36 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <!-- Source: https://maven.apache.org/plugins/maven-checkstyle-plugin/download.cgi -->
+            <!-- Source: https://github.com/apache/maven-checkstyle-plugin/ -->
+            <!-- Binaries: https://repo1.maven.org/maven2/org/apache/maven/plugins/maven-checkstyle-plugin -->
+            <!-- Description: Generates a report on violations of code style and optionally fails the build if violations are detected. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${maven-checkstyle-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>check-format</id>
+                        <goals>
+                            <goal>checkstyle</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>dev.openjavaformat</groupId>
+                        <artifactId>open-java-format</artifactId>
+                        <version>${open-java-format.version}</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <configLocation>config/checkstyle.xml</configLocation>
+                    <consoleOutput>false</consoleOutput>
+                    <failsOnError>false</failsOnError>
+                    <linkXRef>false</linkXRef>
+                </configuration>
             </plugin>
             <!-- Source: https://maven.apache.org/plugins/maven-gpg-plugin/ -->
             <!-- Binaries: https://repo1.maven.org/maven2/org/apache/maven/plugins/maven-gpg-plugin -->
@@ -199,7 +240,7 @@
                 </executions>
                 <configuration>
                     <rulesets>
-                        <ruleset>pmd-ruleset.xml</ruleset>
+                        <ruleset>config/pmd-ruleset.xml</ruleset>
                     </rulesets>
                     <failOnViolation>true</failOnViolation>
                     <linkXRef>false</linkXRef>
@@ -237,7 +278,7 @@
                         <configuration>
                             <rules>
                                 <requireJavaVersion>
-                                    <version>26.0.2</version>
+                                    <version>[27,)</version>
                                 </requireJavaVersion>
                             </rules>    
                         </configuration>
@@ -250,7 +291,7 @@
                         <configuration>
                             <rules>
                                 <requireMavenVersion>
-                                    <version>[3.9,3.10]</version>
+                                    <version>[3.10,)</version>
                                 </requireMavenVersion>
                             </rules>    
                         </configuration>
@@ -294,6 +335,47 @@
 
     <profiles>
         <profile>
+            <id>mavenCentral</id>
+            <activation>
+                <property>
+                    <name>release</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-shade-plugin</artifactId>
+                        <version>${maven-shade-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>make-fat-jar</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>shade</goal>
+                                </goals>
+                                <configuration>
+                                    <createDependencyReducedPom>false</createDependencyReducedPom>
+                                    <!-- Keep original JAR -->
+                                    <shadedArtifactAttached>true</shadedArtifactAttached>
+                                    <transformers>
+                                        <!-- add Main-Class to manifest file -->
+                                        <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                            <manifestEntries>
+                                                <Main-Class>io.github.dgp_eu.json_split.ApplicationJsonSplit</Main-Class>
+                                                <X-Compile-Source-JDK>${maven.compile.source}</X-Compile-Source-JDK>
+                                                <X-Compile-Target-JDK>${maven.compile.target}</X-Compile-Target-JDK>
+                                            </manifestEntries>
+                                        </transformer>
+                                    </transformers>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
             <id>local</id>
             <activation>
                 <property>
@@ -304,24 +386,30 @@
                 <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-assembly-plugin</artifactId>
-                        <version>${maven-assembly-plugin.version}</version>
+                        <artifactId>maven-shade-plugin</artifactId>
+                        <version>${maven-shade-plugin.version}</version>
                         <executions>
                             <execution>
                                 <id>make-fat-jar</id>
                                 <phase>package</phase>
                                 <goals>
-                                    <goal>single</goal>
+                                    <goal>shade</goal>
                                 </goals>
                                 <configuration>
-                                    <descriptorRefs>
-                                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                                    </descriptorRefs>
-                                    <archive>
-                                        <manifest>
-                                            <mainClass>io.github.dgp_eu.json_split.ApplicationJsonSplit</mainClass>
-                                        </manifest>
-                                    </archive>
+                                    <!-- Keep original JAR -->
+                                    <shadedArtifactAttached>true</shadedArtifactAttached>
+                                    <!-- Fat JAR classifier -->
+                                    <shadedClassifierName>jar-with-dependencies</shadedClassifierName>
+                                    <transformers>
+                                        <!-- add Main-Class to manifest file -->
+                                        <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                            <manifestEntries>
+                                                <Main-Class>io.github.pgdro.json_split.ApplicationJsonSplit</Main-Class>
+                                                <X-Compile-Source-JDK>${maven.compile.source}</X-Compile-Source-JDK>
+                                                <X-Compile-Target-JDK>${maven.compile.target}</X-Compile-Target-JDK>
+                                            </manifestEntries>
+                                        </transformer>
+                                    </transformers>
                                 </configuration>
                             </execution>
                         </executions>

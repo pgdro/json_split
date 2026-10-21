@@ -1,8 +1,8 @@
-/*
- * Copyright 2026 Daniel-Gheorghe Popiniuc
- */
-package io.github.dgp_eu.json_split;
+/* Copyright 2026 Daniel-Gheorghe Popiniuc */
+package io.github.pgdro.json_split;
 
+import io.github.pgdro.tools.core.LogExposureClass;
+import io.github.pgdro.tools.core.file.FileOperationsClass;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -14,9 +14,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.Properties;
-
-import io.github.dgp_eu.tools.core.FileOperationsClass;
-import io.github.dgp_eu.tools.core.LogExposureClass;
 import tools.jackson.core.JacksonException;
 import tools.jackson.core.JsonGenerator;
 import tools.jackson.core.JsonParser;

@@ -1,14 +1,14 @@
-package io.github.dgp_eu.json_split.cli;
+/* Copyright 2026 Daniel-Gheorghe Popiniuc */
+package io.github.pgdro.json_split.cli;
 
+import io.github.pgdro.tools.core.BasicStructuresClass;
+import io.github.pgdro.tools.core.InteractiveInputClass;
+import io.github.pgdro.tools.core.LogExposureClass;
+import io.github.pgdro.tools.core.file.FileOperationsClass;
+import io.github.pgdro.json_split.JsonSplitLogicClass;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Properties;
-
-import io.github.dgp_eu.json_split.JsonSplitLogicClass;
-import io.github.dgp_eu.tools.core.BasicStructuresClass;
-import io.github.dgp_eu.tools.core.CommonInteractiveClass;
-import io.github.dgp_eu.tools.core.FileOperationsClass;
-import io.github.dgp_eu.tools.core.LogExposureClass;
 import picocli.CommandLine;
 import picocli.CommandLine.Mixin;
 
@@ -36,17 +36,17 @@ class JsonSplit implements Runnable {
     private static long sizeThreshold;
     /**
      * adds the options defined in 
-     * CommonInteractiveClass.FileNameOptionMixinClass to this command
+     * InteractiveInputClass.FileNameOptionMixinClass to this command
      */
     @Mixin
-    private static final CommonInteractiveClass.InFileNameOptionMixinClass OPT_FILE_NAMES =
-            new CommonInteractiveClass.InFileNameOptionMixinClass();
+    private static final InteractiveInputClass.InFileNameOptionMixinClass OPT_FILE_NAMES =
+            new InteractiveInputClass.InFileNameOptionMixinClass();
     /**
      * adds the options defined in 
-     * CommonInteractiveClass.FolderDestinationOptionMixinClass to this command
+     * InteractiveInputClass.FolderDestinationOptionMixinClass to this command
      */
     @Mixin
-    private static final CommonInteractiveClass.FolderDestinationOptionMixinClass OPT_FOLDER_DEST = new CommonInteractiveClass.FolderDestinationOptionMixinClass();
+    private static final InteractiveInputClass.FolderDestinationOptionMixinClass OPT_FOLDER_DEST = new InteractiveInputClass.FolderDestinationOptionMixinClass();
     /**
      * size of Split threshold (optional)
      */
