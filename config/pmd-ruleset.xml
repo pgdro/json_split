@@ -9,7 +9,7 @@
     </description>
 
     <rule ref="category/java/bestpractices.xml"/>
-    <rule ref="category/java/codestyle.xml"/>
+    <!-- <rule ref="category/java/codestyle.xml"/> Ignore codestyle rules since we have checkstyle plugin enabled -->
     <rule ref="category/java/design.xml"/>
     <rule ref="category/java/documentation.xml"/>
     <rule ref="category/java/errorprone.xml"/>
